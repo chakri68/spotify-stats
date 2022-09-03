@@ -1,0 +1,22 @@
+.artistCardFlex {
+  column-gap: 30px;
+  margin: 20px;
+  flex: 1;
+  min-height: fit-content;
+  max-width: 500px;
+}
+
+.imagePart {
+}
+
+.contentPart {
+  width: 100%;
+}
+
+.artistTitle {
+  column-gap: 15px;
+}
+
+.artistTitle a {
+  color: inherit;
+}

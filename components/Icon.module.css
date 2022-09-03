@@ -1,0 +1,8 @@
+.spotifyIcon {
+  transform: scale(0.9);
+}
+
+.extLinkTag:hover {
+  /* Spotify color */
+  color: green;
+}

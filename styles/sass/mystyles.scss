@@ -1,0 +1,109 @@
+@charset "utf-8";
+
+@import url("https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&family=Raleway:ital,wght@0,100;0,200;0,400;1,100;1,200;1,400&display=swap");
+
+$black: hsl(0, 0%, 8%) !default;
+$black-bis: hsl(0, 0%, 13%) !default;
+$black-ter: hsl(0, 0%, 18%) !default;
+
+// $black: hsl(0, 0%, 96%) !default;
+// $black-bis: hsl(0, 0%, 98%) !default;
+// $black-ter: hsl(0, 0%, 100%) !default;
+
+$grey-lightest: hsl(0, 0%, 93%) !default;
+$grey-lighter: hsl(0, 0%, 86%) !default;
+$grey-light: hsl(0, 0%, 71%) !default;
+$grey: hsl(0, 0%, 48%) !default;
+$grey-dark: hsl(0, 0%, 29%) !default;
+$grey-darker: hsl(0, 0%, 21%) !default;
+
+// $grey-darker: hsl(0, 0%, 93%) !default;
+// $grey-dark: hsl(0, 0%, 86%) !default;
+// $grey: hsl(0, 0%, 71%) !default;
+// $grey-light: hsl(0, 0%, 48%) !default;
+// $grey-lighter: hsl(0, 0%, 29%) !default;
+// $grey-lightest: hsl(0, 0%, 21%) !default;
+
+$white-ter: hsl(0, 0%, 96%) !default;
+$white-bis: hsl(0, 0%, 98%) !default;
+$white: hsl(0, 0%, 100%) !default;
+
+// $white-ter: hsl(0, 0%, 4%) !default;
+// $white-bis: #141414 !default;
+// $white: #222 !default;
+
+// My colors
+$orange: hsl(14, 100%, 53%) !default;
+$yellow: hsl(44, 100%, 77%) !default;
+$green: hsl(153, 53%, 53%) !default;
+$turquoise: hsl(178, 90%, 38%) !default;
+$cyan: #74c4ec !default;
+$blue: hsl(195, 100%, 50%) !default;
+$purple: hsl(271, 100%, 71%) !default;
+$red: hsl(348, 86%, 61%) !default;
+
+// Changing the primary colors
+$primary: $turquoise !default;
+
+$info: $cyan !default;
+$success: $green !default;
+$warning: $yellow !default;
+$danger: $red !default;
+
+$light: $white-ter !default;
+$dark: $grey-darker !default;
+
+// General colors
+$scheme-invert: $white !default;
+$scheme-invert-bis: $white-bis !default;
+$scheme-invert-ter: $white-ter !default;
+$scheme-main: $black !default;
+$scheme-main-bis: $black-bis !default;
+$scheme-main-ter: $black-ter !default;
+
+$background: $black-ter !default;
+
+$border: $grey-dark !default;
+$border-hover: $grey !default;
+$border-light: $grey-darker !default;
+$border-light-hover: $grey !default;
+
+// Text colors
+$text: $grey-lighter !default;
+$text-invert: findColorInvert($text) !default;
+$text-light: $grey-light !default;
+$text-strong: $grey-lightest !default;
+
+// Code colors
+$code: darken($red, 15%) !default;
+$code-background: $background !default;
+
+$pre: $text !default;
+$pre-background: $background !default;
+
+// Link colors
+$link: $blue !default;
+$link-invert: findColorInvert($link) !default;
+$link-light: findLightColor($link) !default;
+$link-dark: findDarkColor($link) !default;
+$link-visited: $purple !default;
+
+$link-hover: $grey-lightest !default;
+$link-hover-border: $grey !default;
+
+$link-focus: $grey-lightest !default;
+$link-focus-border: $blue !default;
+
+$link-active: $grey-lightest !default;
+$link-active-border: $grey-lighter !default;
+
+// Typography
+
+$family-sans-serif: "Raleway", sans-serif;
+$family-monospace: "Fira Mono", monospace;
+
+$family-primary: $family-monospace !default;
+$family-secondary: $family-sans-serif !default;
+$family-code: $family-monospace !default;
+
+@import "../../node_modules/bulma/bulma.sass";

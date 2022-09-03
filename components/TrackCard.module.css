@@ -1,0 +1,24 @@
+.trackCardFlex {
+  box-sizing: border-box;
+  column-gap: 30px;
+  margin: 20px;
+  flex: 1;
+  /* min-width: fit-content; */
+  flex-basis: calc(50% - 40px);
+  min-width: fit-content;
+}
+
+.imagePart {
+}
+
+.contentPart {
+  width: 100%;
+}
+
+.trackTitle {
+  column-gap: 15px;
+}
+
+.trackTitle a {
+  color: inherit;
+}

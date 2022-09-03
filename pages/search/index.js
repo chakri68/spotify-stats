@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
 import ResultsList from "../components/ResultsList";
 import { JP } from "../public/scripts/Utils";
-import Head from "next/head";
 
 export default function Home({ token }) {
   let [searchData, setSearchData] = useState([]);
   let [notFound, setNotFound] = useState(false);
   useEffect(() => {
-    localStorage.setItem("session_token", new JP({ token: token }).toString());
+    let obj = localStorage.getItem("session-token");
+    if (obj) {
+      let myObj = new JP(obj);
+      myObj.store({ token: token });
+    } else {
+      localStorage.setItem(
+        "session-token",
+        new JP({ token: token }).toString()
+      );
+    }
     document.getElementById("submitBtn").disabled = true;
   }, [token]);
 
@@ -61,7 +69,7 @@ export default function Home({ token }) {
     );
     let data = await res.json();
     if (data) {
-      setSearchData({ ...data, searchTerm: query });
+      setSearchData(data);
     } else {
       setSearchData([]);
       setNotFound(true);
@@ -71,9 +79,6 @@ export default function Home({ token }) {
 
   return (
     <>
-      <Head>
-        <title>Spotify Stats</title>
-      </Head>
       <div
         className="card"
         style={{
@@ -146,7 +151,6 @@ export default function Home({ token }) {
                       e.target.classList.toggle("is-loading");
                     }
                   );
-                  document.querySelector("div.searchResults")?.scrollIntoView();
                 }}
               >
                 Search
@@ -163,7 +167,7 @@ export default function Home({ token }) {
         ""
       )}
       {notFound == false && Object.keys(searchData).length !== 0 ? (
-        <ResultsList key={searchData.searchTerm} searchData={searchData} />
+        <ResultsList searchData={searchData} />
       ) : (
         ""
       )}

@@ -6,12 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "css-build": "node-sass --omit-source-map-url styles/sass/mystyles.scss styles/mystyles.css",
+    "css-watch": "npm run css-build -- --watch"
   },
   "dependencies": {
+    "bulma": "^0.9.4",
     "next": "12.2.5",
+    "node-sass": "^7.0.1",
+    "plaiceholder": "^2.5.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "request": "^2.88.2",
+    "sweetalert2": "^11.4.29",
+    "tailwind": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "8.23.0",

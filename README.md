@@ -1,3 +1,10 @@
+# Spotify API UI
+
+## Working on
+
+- Adding a breadcrumb UI element
+- Add default/fallback images to the Image elements
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
