@@ -19,7 +19,7 @@ export default function TrackCard({ el }) {
           className="image hover-pointer is-128x128 skeleton-box"
           onClick={() => {
             showModalImage({
-              imgSrc: el.images[0]?.url,
+              imgSrc: el.album?.images[0]?.url,
               alt: `${el.name} image`,
             });
           }}
