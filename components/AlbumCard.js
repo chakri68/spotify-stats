@@ -4,7 +4,7 @@ import Link from "next/link";
 import Icon from "./Icon";
 import { showModalImage } from "../public/scripts/Utils";
 
-export default function AlbumCard({ el }) {
+export default function AlbumCard({ el, ...props }) {
   let displayData = {
     total_tracks: "Total Tracks",
     release_date: "Released On",
@@ -12,6 +12,7 @@ export default function AlbumCard({ el }) {
 
   return (
     <div
+      {...props}
       className={`box is-inline-flex is-flex-direction-row is-align-items-center albumCardFlex is-justify-content-space-around px-6 py-5 ${styles.albumCardFlex}`}
     >
       <div className={styles.imagePart}>

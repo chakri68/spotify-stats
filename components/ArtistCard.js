@@ -3,13 +3,14 @@ import Icon from "./Icon";
 import SafeImage from "./SafeImage";
 import { showModalImage } from "../public/scripts/Utils";
 
-export default function ArtistCard({ el }) {
+export default function ArtistCard({ el, ...props }) {
   let displayData = {
     Followers: el.followers.total,
     "Popularity Rating": el.popularity,
   };
   return (
     <div
+      {...props}
       className={`box is-inline-flex is-flex-direction-column is-justify-content-space-around ${styles.artistCardFlex}`}
     >
       <div

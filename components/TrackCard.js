@@ -4,13 +4,14 @@ import Link from "next/link";
 import { showModalImage } from "../public/scripts/Utils";
 import Icon from "./Icon";
 
-export default function TrackCard({ el }) {
+export default function TrackCard({ el, ...props }) {
   let displayData = {
     track_number: "Track Number",
     popularity: "Polularity Rating",
   };
   return (
     <div
+      {...props}
       className={`box is-inline-flex is-flex-direction-row is-align-items-center albumCardFlex is-justify-content-space-around px-6 py-5 ${styles.trackCardFlex}`}
     >
       <div className={styles.imagePart}>
