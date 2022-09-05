@@ -108,3 +108,28 @@ export function showModalImage({
     document.body.appendChild(modal);
   }
 }
+
+export let date = {
+  compare: (a, b) => {
+    let da = new Date(a);
+    let db = new Date(b);
+    if (da > db) return 1;
+    else if (da < db) return -1;
+    else return 0;
+  },
+  add: (a, b) => {
+    let da = new Date(a);
+    da.setMinutes(da.getMinutes() + b);
+    return da;
+  },
+};
+
+export function checkTokenFromLS({ key }) {
+  if (date.compare(Date.now(), localStorage.getItem(key)) < 0) {
+    console.log(true);
+    return true;
+  } else {
+    console.log(true);
+    return false;
+  }
+}

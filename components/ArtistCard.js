@@ -38,7 +38,7 @@ export default function ArtistCard({ el, ...props }) {
               {genre}
             </a>
           ))
-        : el.genres.slice(0, 5).map((genre) => (
+        : el.genres.map((genre) => (
             <a
               className="is-size-7 link mr-5"
               key={genre}

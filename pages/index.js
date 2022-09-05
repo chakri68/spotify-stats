@@ -1,15 +1,38 @@
 import { useEffect, useState } from "react";
 import ResultsList from "../components/ResultsList";
-import { JP } from "../public/scripts/Utils";
 import Head from "next/head";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-export default function Home({ token }) {
+export default function Home() {
   let [searchData, setSearchData] = useState([]);
   let [notFound, setNotFound] = useState(false);
   useEffect(() => {
-    localStorage.setItem("session_token", new JP({ token: token }).toString());
+    if (
+      localStorage.getItem("session_token") &&
+      localStorage.getItem("expires_at") &&
+      new Date(Date.now()) < new Date(localStorage.getItem("expires_at"))
+    ) {
+      return;
+    }
+    fetch("/api/token")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        let date = new Date(Date.now());
+        localStorage.setItem("session_token", data.access_token);
+        localStorage.setItem(
+          "expires_at",
+          date.setMinutes(
+            date.getMinutes + Math.floor(parseInt(date.expires_in) / 60)
+          )
+        );
+      })
+      .catch((err) => console.warn({ ERROR: err }));
+
     document.getElementById("submitBtn").disabled = true;
-  }, [token]);
+  }, []);
 
   function checkboxes() {
     let isdisabled = true;
@@ -55,7 +78,7 @@ export default function Home({ token }) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("session_token")}`,
         },
       }
     );
@@ -74,6 +97,7 @@ export default function Home({ token }) {
       <Head>
         <title>Spotify Stats</title>
       </Head>
+      <Navbar />
       <div
         className="card"
         style={{
@@ -102,9 +126,9 @@ export default function Home({ token }) {
                 name="query"
                 id="songName"
                 className="input mb-4"
-                placeholder="Song Name"
+                placeholder="Search"
               />
-              <div className="type is-flex is-flex-direction-row is-flex-wrap is-justify-content-space-around is-align-content-center pb-3">
+              <div className="type is-flex is-flex-direction-row is-flex-wrap is-justify-content-space-around is-align-content-center mb-5">
                 <label className="checkbox">
                   <input
                     type="checkbox"
@@ -167,30 +191,7 @@ export default function Home({ token }) {
       ) : (
         ""
       )}
+      <Footer />
     </>
   );
-}
-
-export async function getServerSideProps() {
-  const client_id = process.env.CLIENT_ID;
-  const client_secret = process.env.CLIENT_SECRET;
-  let token = null;
-
-  let res = await fetch("https://accounts.spotify.com/api/token", {
-    method: "POST",
-    headers: {
-      Authorization:
-        "Basic " +
-        new Buffer(client_id + ":" + client_secret).toString("base64"),
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: "grant_type=client_credentials",
-  });
-  let data = await res.json();
-  token = data.access_token;
-  return {
-    props: {
-      token: token,
-    },
-  };
 }

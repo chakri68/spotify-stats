@@ -2,10 +2,9 @@ import { useState } from "react";
 import AlbumCard from "./AlbumCard";
 import ArtistCard from "./ArtistCard";
 import TrackCard from "./TrackCard";
-import { JP } from "../public/scripts/Utils";
 
 export default function Pagination({ total, stage, initJSX }) {
-  const TOKEN = new JP(localStorage.getItem("session_token")).get("token");
+  const TOKEN = localStorage.getItem("session_token");
   let pageSize = new URL(stage.url).searchParams.get("limit");
   let pageData = [initJSX];
   let totalPages = Math.ceil(total / pageSize);
@@ -75,7 +74,7 @@ export default function Pagination({ total, stage, initJSX }) {
     <div className="Page">
       {pageJSX}
       <nav
-        className="pagination mb-5"
+        className="pagination mb-5 mt-3"
         role="navigation"
         aria-label="pagination"
       >
