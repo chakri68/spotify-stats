@@ -1,5 +1,12 @@
 :root {
   --primary: hsl(171, 100%, 41%);
+  --footer-height: 80px;
+}
+
+#__next {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: var(--footer-height);
 }
 
 html,
