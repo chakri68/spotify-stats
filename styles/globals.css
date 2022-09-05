@@ -1,3 +1,15 @@
+/* Remove touch screen tap box color */
+
+input,
+label,
+textarea,
+button,
+select,
+a,
+svg {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 :root {
   --primary: hsl(171, 100%, 41%);
   --footer-height: 80px;
