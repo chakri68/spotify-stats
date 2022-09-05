@@ -1,0 +1,17 @@
+.logo {
+  column-gap: 15px;
+  margin: 10px;
+}
+
+.logo:hover {
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.logoText {
+  font-weight: bold;
+}
+
+.navbarItemWrapper {
+  font-size: smaller;
+}
