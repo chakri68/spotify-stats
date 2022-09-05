@@ -133,3 +133,38 @@ export function checkTokenFromLS({ key }) {
     return false;
   }
 }
+
+export function showModal({ innerhtml, parent = null }) {
+  let style = {
+    content:
+      "background-color: black; width: fit-content;border-radius: 4px; overflow: hidden;",
+  };
+  if (document.querySelector("div.injected-modal")) {
+    document.querySelector(
+      "div.injected-modal"
+    ).innerHTML = `<div class="modal-background" onclick="removeModal()">
+  <div class="modal-content modal-box" style="${style.content}">
+    ${innerhtml}
+  </div>
+
+  <button class="modal-close is-large" aria-label="close" onclick="removeModal()"></button></div>`;
+    document.querySelector("div.injected-modal").classList.add("is-active");
+    document.querySelector("div.injected-modal").classList.remove("out");
+    document.body.classList.add("modal-active");
+    return;
+  }
+  let modal = document.createElement("div");
+  modal.id = "modal-container";
+  modal.classList += "modal is-active injected-modal anim-reveal";
+  modal.innerHTML = `<div class="modal-background" onclick="removeModal()">
+  <div class="modal-content modal-box" style="${style.content}">
+    ${innerhtml}
+  </div>
+
+  <button class="modal-close" aria-label="close" onclick="removeModal()"></button></div>`;
+  if (parent) {
+    parent.appendChild(modal);
+  } else {
+    document.body.appendChild(modal);
+  }
+}
