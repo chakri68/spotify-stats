@@ -41,7 +41,7 @@ export async function getServerSideProps(context) {
       url: "https://accounts.spotify.com/api/token",
       form: {
         code: code,
-        redirect_uri: "http://localhost:3000",
+        redirect_uri: "https://musicstats.vercel.app",
         grant_type: "authorization_code",
       },
       headers: {
@@ -63,7 +63,7 @@ export async function getServerSideProps(context) {
           ).toString("base64"),
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: `code=${code}&redirect_uri=http://localhost:3000/callback&grant_type=authorization_code`,
+      body: `code=${code}&redirect_uri=https://musicstats.vercel.app/callback&grant_type=authorization_code`,
     });
     let data = await res.json();
     console.log(data);

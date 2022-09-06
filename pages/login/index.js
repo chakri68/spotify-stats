@@ -14,7 +14,7 @@ export default function Login() {
 }
 
 export function getServerSideProps() {
-  let redirect_uri = "http://localhost:3000/callback";
+  let redirect_uri = "https://musicstats.vercel.app/callback";
   let state = makeid(16);
   let scope =
     "user-read-private user-read-email user-top-read user-read-recently-played user-follow-read";
