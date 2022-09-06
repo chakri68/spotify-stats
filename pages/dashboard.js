@@ -12,7 +12,11 @@ import { checkTokenFromLS } from "../public/scripts/Utils";
 
 export default function Dashboard() {
   let [userData, setUserData] = useState(null);
-  let [topData, setTopData] = useState({ tracks: null, artists: null });
+  let [topData, setTopData] = useState({
+    tracks: null,
+    artists: null,
+    reRender: false,
+  });
   let router = useRouter();
   let userAuth, session_token;
   if (typeof window !== "undefined") {
@@ -27,27 +31,28 @@ export default function Dashboard() {
     ) {
       router.replace("/login");
     } else {
-      fetchTop(["artists", "tracks"]);
       fetchUserData({ token: session_token });
+      fetchTop(["artists", "tracks"]);
     }
   }, []);
 
-  async function fetchTop(type) {
+  async function fetchTop(types) {
     try {
-      type.map(async (type) => {
-        let res = await fetch(`https://api.spotify.com/v1/me/top/${type}`, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("session_token")}`,
-          },
-        });
-        let data = await res.json();
-        console.log(data);
-        let currTop = { ...topData };
-        currTop[type] = data;
-        setTopData(currTop);
-      });
+      let currTop = {};
+      await Promise.all(
+        types.map(async (type) => {
+          let res = await fetch(`https://api.spotify.com/v1/me/top/${type}`, {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("session_token")}`,
+            },
+          });
+          let data = await res.json();
+          currTop[type] = data;
+        })
+      );
+      setTopData({ ...currTop, reRender: !topData.reRender });
     } catch (err) {
       console.log(err);
     }
@@ -63,7 +68,6 @@ export default function Dashboard() {
         },
       });
       let data = await res.json();
-      console.log({ data });
       if (data && !data.hasOwnProperty("error")) {
         setUserData(data);
       } else {
@@ -118,11 +122,9 @@ export default function Dashboard() {
                       {Object.keys(showData).map((key) => {
                         let data = userData[key];
                         let c = showData[key];
-                        console.log({ c });
                         while (typeof c == "object") {
                           data = data[Object.keys(c)[0]];
                           c = c[Object.keys(c)[0]];
-                          console.log({ showData, c });
                         }
                         return (
                           <p className="mb-1 is-size-7" key={data}>
@@ -142,7 +144,7 @@ export default function Dashboard() {
                 <div className="tile is-child box">
                   <p className="title">Most Played Artist</p>
                   <div className="is-flex is-justify-content-center">
-                    {topData.artists?.items.length > 0 ? (
+                    {topData && topData.artists?.items.length > 0 ? (
                       <ArtistCard
                         style={{ flexGrow: "0" }}
                         key={topData.artists.href}
@@ -170,7 +172,7 @@ export default function Dashboard() {
                     className="is-flex is-align-items-center"
                     style={{ height: "100%" }}
                   >
-                    {topData.tracks?.items.length > 0 ? (
+                    {topData && topData.tracks?.items.length > 0 ? (
                       <TrackCard
                         style={{ flexGrow: "0" }}
                         key={topData.tracks.href}
