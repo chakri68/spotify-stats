@@ -43,6 +43,12 @@ export default function Navbar({ button = null }) {
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
+          onClick={(e) => {
+            e.currentTarget.classList.toggle("is-active");
+            document
+              .getElementById(e.currentTarget.dataset.target)
+              .classList.toggle("is-active");
+          }}
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -58,7 +64,14 @@ export default function Navbar({ button = null }) {
           <a className="navbar-item">Artists</a>
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">More</a>
+            <a
+              className="navbar-link mb-3"
+              onClick={(e) => {
+                e.currentTarget.parentElement.classList.toggle("is-active");
+              }}
+            >
+              More
+            </a>
 
             <div className="navbar-dropdown">
               <a className="navbar-item">About</a>
