@@ -44,7 +44,7 @@ export default function Dashboard() {
         });
         let data = await res.json();
         console.log(data);
-        let currTop = topData;
+        let currTop = { ...topData };
         currTop[type] = data;
         setTopData(currTop);
       });
