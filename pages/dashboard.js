@@ -169,7 +169,7 @@ export default function Dashboard() {
                 <div className="tile is-child box">
                   <p className="title">Most Played Track</p>
                   <div
-                    className="is-flex is-align-items-center"
+                    className="is-flex is-align-items-center is-justify-content-center"
                     style={{ height: "100%" }}
                   >
                     {topData && topData.tracks?.items.length > 0 ? (
