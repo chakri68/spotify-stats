@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import "../styles/mystyles.css";
+import "../styles/sass/mystyles.scss";
 import Script from "next/script";
 import Head from "next/head";
 
