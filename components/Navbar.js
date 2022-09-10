@@ -18,7 +18,7 @@ export default function Navbar({ button = null }) {
 
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
-      <div className="navbar-brand">
+      <div className={`navbar-brand ${styles.navbarBrand}`}>
         <Link className="navbar-item" href="/">
           <a href="" className="not-link">
             <div
@@ -65,7 +65,7 @@ export default function Navbar({ button = null }) {
 
           <div className="navbar-item has-dropdown is-hoverable">
             <a
-              className="navbar-link mb-3"
+              className="navbar-link"
               onClick={(e) => {
                 e.currentTarget.parentElement.classList.toggle("is-active");
               }}
@@ -82,7 +82,7 @@ export default function Navbar({ button = null }) {
           </div>
         </div>
 
-        <div className="navbar-end">
+        <div className={`navbar-end ${styles.navbarEnd}`}>
           <div className="navbar-item">
             <div className="buttons">
               {!authState ? (

@@ -15,3 +15,11 @@
 .navbarItemWrapper {
   font-size: smaller;
 }
+
+.navbarBrand {
+  align-items: center;
+}
+
+.navbarEnd {
+  margin-top: 5px;
+}
