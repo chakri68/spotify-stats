@@ -168,3 +168,7 @@ export function showModal({ innerhtml, parent = null }) {
     document.body.appendChild(modal);
   }
 }
+
+export function range(size, startAt = 0) {
+  return [...Array(size).keys()].map((i) => i + startAt);
+}
