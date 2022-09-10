@@ -18,7 +18,6 @@ export function getServerSideProps() {
   let state = makeid(16);
   let scope =
     "user-read-private user-read-email user-top-read user-read-recently-played user-follow-read";
-  console.log(process.env.CLIENT_ID);
   return {
     redirect: {
       destination:

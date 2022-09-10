@@ -59,7 +59,6 @@ export default function Home() {
     },
     callback = () => {}
   ) {
-    console.log({ query, artists, tracks, albums });
     let types = { artists, tracks, albums };
     let typeArr = [];
     let apiTypeNames = {

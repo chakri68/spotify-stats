@@ -66,7 +66,6 @@ export async function getServerSideProps(context) {
       body: `code=${code}&redirect_uri=https://musicstats.vercel.app/callback&grant_type=authorization_code`,
     });
     let data = await res.json();
-    console.log(data);
     return {
       props: data,
     };
