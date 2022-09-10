@@ -19,7 +19,9 @@ export default function Pagination({
   let [pageJSX, setPageJSX] = useState(pageData[0]);
   let [pageNums, setPageNums] = useState(
     totalPages <= maxPages
-      ? [[...range(maxPages, 1)]]
+      ? totalPages < toDisplayNum
+        ? [[...range(totalPages, 1)]]
+        : [[...range(maxPages, 1)]]
       : [
           [...range(toDisplayNum, 1)],
           [...range(toDisplayNum, totalPages - toDisplayNum + 1)],
@@ -77,15 +79,16 @@ export default function Pagination({
     }
   }
   function handlePageNums(currPg) {
+    console.log({ totalPages });
     let nums = [];
     range(toDisplayNum, 1).map((num) => {
-      nums.push(num);
+      if (num <= totalPages) nums.push(num);
     });
     range(toDisplayNum, currPg - 1).map((num) => {
       if (num > 0 && num <= totalPages && !nums.includes(num)) nums.push(num);
     });
     range(toDisplayNum, totalPages - toDisplayNum + 1).map((num) => {
-      if (!nums.includes(num)) nums.push(num);
+      if (num > 0 && num <= totalPages && !nums.includes(num)) nums.push(num);
     });
     let toRet = [];
     let currSequence = [];
@@ -100,6 +103,7 @@ export default function Pagination({
         pvNum = i;
       }
     }
+    console.log({ nums, toRet });
     toRet.push(currSequence);
     setPageNums(toRet);
   }
