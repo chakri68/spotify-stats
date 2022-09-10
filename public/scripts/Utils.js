@@ -172,3 +172,13 @@ export function showModal({ innerhtml, parent = null }) {
 export function range(size, startAt = 0) {
   return [...Array(size).keys()].map((i) => i + startAt);
 }
+/**
+ * @param  {Array} arr
+ */
+export function sort(arr) {
+  return arr.sort(function (a, b) {
+    if (a === Infinity) return 1;
+    else if (isNaN(a)) return -1;
+    else return a - b;
+  });
+}
