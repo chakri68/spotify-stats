@@ -2,14 +2,29 @@ import { useState } from "react";
 import AlbumCard from "./AlbumCard";
 import ArtistCard from "./ArtistCard";
 import TrackCard from "./TrackCard";
+import { range } from "../public/scripts/Utils";
 
-export default function Pagination({ total, stage, initJSX }) {
+export default function Pagination({
+  total,
+  stage,
+  initJSX,
+  toDisplayNum = 3,
+  maxPages = 6,
+}) {
   const TOKEN = localStorage.getItem("session_token");
   let pageSize = new URL(stage.url).searchParams.get("limit");
   let pageData = [initJSX];
   let totalPages = Math.ceil(total / pageSize);
   let [currPage, setCurrPage] = useState(1);
   let [pageJSX, setPageJSX] = useState(pageData[0]);
+  let [pageNums, setPageNums] = useState(
+    totalPages <= maxPages
+      ? [[...range(maxPages, 1)]]
+      : [
+          [...range(toDisplayNum, 1)],
+          [...range(toDisplayNum, totalPages - toDisplayNum + 1)],
+        ]
+  );
   async function pageJSXHandler(page) {
     document.querySelector("div.searchResults")?.scrollIntoView();
     if (pageData[parseInt(page) - 1]) {
@@ -17,14 +32,13 @@ export default function Pagination({ total, stage, initJSX }) {
       return;
     }
     const paramObj = {
-      offset: page * pageSize,
+      offset: (parseInt(page) - 1) * pageSize,
     };
     let url = new URL(stage.url);
     ["offset"].map((nonReq) => url.searchParams.delete(nonReq));
     Object.keys(paramObj).map((key) =>
       url.searchParams.append(key, paramObj[key])
     );
-
     let res = await fetch(url, {
       headers: {
         Accept: "application/json",
@@ -62,11 +76,38 @@ export default function Pagination({ total, stage, initJSX }) {
       pageChange(document.querySelector(`li[data-page='${currPage - 1}']`));
     }
   }
-
+  function handlePageNums(currPg) {
+    let nums = [];
+    range(toDisplayNum, 1).map((num) => {
+      nums.push(num);
+    });
+    range(toDisplayNum, currPg - 1).map((num) => {
+      if (num > 0 && num <= totalPages && !nums.includes(num)) nums.push(num);
+    });
+    range(toDisplayNum, totalPages - toDisplayNum + 1).map((num) => {
+      if (!nums.includes(num)) nums.push(num);
+    });
+    let toRet = [];
+    let currSequence = [];
+    let pvNum = nums[0];
+    for (let i of nums) {
+      if (pvNum + 1 == i || pvNum == i) {
+        currSequence.push(i);
+        pvNum = i;
+      } else {
+        toRet.push(currSequence);
+        currSequence = [i];
+        pvNum = i;
+      }
+    }
+    toRet.push(currSequence);
+    setPageNums(toRet);
+  }
   function pageChange(e) {
     let ePage = e.dataset?.page;
     if (ePage && currPage != ePage) {
-      setCurrPage(ePage);
+      setCurrPage(parseInt(ePage));
+      handlePageNums(ePage);
       pageJSXHandler(ePage);
     }
   }
@@ -101,25 +142,38 @@ export default function Pagination({ total, stage, initJSX }) {
           Next page
         </a>
         <ul className="pagination-list">
-          {[...Array(totalPages)].map((x, ind) => {
+          {pageNums.map((arr, ind) => {
             return (
-              <li
-                key={ind}
-                onClick={(e) => {
-                  pageChange(e.currentTarget);
-                }}
-                data-page={ind + 1}
-              >
-                <a
-                  className={`pagination-link ${
-                    ind + 1 == currPage ? "is-current" : ""
-                  }`}
-                  aria-label={`Goto page ${ind + 1}`}
-                  aria-current={ind + 1 == currPage ? "page" : ""}
-                >
-                  {ind + 1}
-                </a>
-              </li>
+              <>
+                {arr.map((ind) => {
+                  return (
+                    <li
+                      key={ind}
+                      onClick={(e) => {
+                        pageChange(e.currentTarget);
+                      }}
+                      data-page={ind}
+                    >
+                      <a
+                        className={`pagination-link ${
+                          ind == currPage ? "is-current" : ""
+                        }`}
+                        aria-label={`Goto page ${ind}`}
+                        aria-current={ind == currPage ? "page" : ""}
+                      >
+                        {ind}
+                      </a>
+                    </li>
+                  );
+                })}
+                {ind !== pageNums.length - 1 ? (
+                  <li>
+                    <span className="pagination-ellipsis">&hellip;</span>
+                  </li>
+                ) : (
+                  ""
+                )}
+              </>
             );
           })}
         </ul>
