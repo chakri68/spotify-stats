@@ -2,26 +2,28 @@ import { useState } from "react";
 import AlbumCard from "./AlbumCard";
 import ArtistCard from "./ArtistCard";
 import TrackCard from "./TrackCard";
-import { range } from "../public/scripts/Utils";
+import { range, sort } from "../public/scripts/Utils";
 
 export default function Pagination({
   total,
   stage,
   initJSX,
   toDisplayNum = 3,
-  maxPages = 6,
+  maxDisplayPages = 6,
+  maxPages = 50,
 }) {
   const TOKEN = localStorage.getItem("session_token");
   let pageSize = new URL(stage.url).searchParams.get("limit");
   let pageData = [initJSX];
   let totalPages = Math.ceil(total / pageSize);
+  if (totalPages > maxPages) totalPages = maxPages;
   let [currPage, setCurrPage] = useState(1);
   let [pageJSX, setPageJSX] = useState(pageData[0]);
   let [pageNums, setPageNums] = useState(
-    totalPages <= maxPages
+    totalPages <= maxDisplayPages
       ? totalPages < toDisplayNum
         ? [[...range(totalPages, 1)]]
-        : [[...range(maxPages, 1)]]
+        : [[...range(maxDisplayPages, 1)]]
       : [
           [...range(toDisplayNum, 1)],
           [...range(toDisplayNum, totalPages - toDisplayNum + 1)],
@@ -90,6 +92,7 @@ export default function Pagination({
     range(toDisplayNum, totalPages - toDisplayNum + 1).map((num) => {
       if (num > 0 && num <= totalPages && !nums.includes(num)) nums.push(num);
     });
+    nums = sort(nums);
     let toRet = [];
     let currSequence = [];
     let pvNum = nums[0];
